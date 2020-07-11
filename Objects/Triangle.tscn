@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Images/driehoek_test.png" type="Texture" id=1]
+[ext_resource path="res://Images/World/driehoek_2_v2.png" type="Texture" id=2]
+[ext_resource path="res://Images/World/driehoek_3_v2.png" type="Texture" id=3]
+[ext_resource path="res://Images/World/driehoek_1_v2.png" type="Texture" id=4]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -8,6 +11,11 @@ animations = [ {
 "loop": true,
 "name": "default",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 2 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 10.0
 } ]
 
 [node name="Spatial" type="Spatial"]
@@ -16,3 +24,6 @@ animations = [ {
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.40842, 0 )
 layers = 4
 frames = SubResource( 1 )
+animation = "Idle"
+frame = 2
+playing = true
