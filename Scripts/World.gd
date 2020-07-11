@@ -69,4 +69,4 @@ func _on_ClickHandeler_beatReleaseSignal(value) -> void:
 
 	var score = distance / max(closestIndex, 1)
 	
-	print(score)
+	#print(score)
