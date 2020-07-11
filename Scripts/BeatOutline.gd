@@ -1,27 +1,26 @@
-extends AnimatedSprite3D
+extends Spatial
 
 
 export var speed: float = .5
-export var maxScale: float = 1
+var currentSpeed: float
+export var maxZ: float = -500
 
-var cScale: float = 1
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	resetScale()
 	
 func resetScale():
-	cScale = maxScale
-	updateScale()
+	currentSpeed = speed
+	translation.z = 0
 	pass
 
 
-func updateScale():
-	scale = Vector3(cScale, cScale, cScale)
-	
-
 func _process(delta):
-	cScale -= speed * delta
-	if (cScale <= 0):
+	currentSpeed += delta * 2
+
+	translation.z -= currentSpeed * delta
+	
+	rotation.z = get_parent().getRotationFromZ(translation.z)
+
+	if translation.z < maxZ:
 		resetScale()
-		
-	updateScale()

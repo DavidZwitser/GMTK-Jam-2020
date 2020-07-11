@@ -22,14 +22,12 @@ func _process(delta):
 func holdClick():
 	if (clicked):
 		return
-	print("pressed...")
 	emit_signal("beatPressedSignal")
 	clicked = true
 
 func releaseClick():
 	if (!clicked):
 		return
-	print("released... ")
 	emit_signal("beatReleaseSignal", power / clickTime)
 	power = 0
 	clicked = false
