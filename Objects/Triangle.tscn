@@ -34,6 +34,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.40842, 0 )
 layers = 4
 frames = SubResource( 1 )
 animation = "Idle"
+frame = 1
 playing = true
 
 [node name="HumanSpawner" type="Path" parent="AnimatedSprite3D"]
