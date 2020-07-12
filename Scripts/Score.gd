@@ -20,5 +20,9 @@ func _on_Wereld_amountOfTrianglesChanged(newAmount, furthestZ, scored) -> void:
 	pass
 
 func _on_ClickHandeler_beatReleaseSignal(value) -> void:
-	text = str(value)
+	pass # Replace with function body.
+
+
+func _on_ScoreManager_scoreChanged(newScore) -> void:
+	text = str(newScore)
 	pass # Replace with function body.

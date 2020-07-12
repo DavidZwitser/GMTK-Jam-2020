@@ -1,18 +1,37 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Images/driehoek_test.png" type="Texture" id=1]
+[ext_resource path="res://Images/World/driehoek_2_v2.png" type="Texture" id=2]
+[ext_resource path="res://Images/World/driehoek_3_v2.png" type="Texture" id=3]
+[ext_resource path="res://Images/World/driehoek_1_v2.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/HumanSpawner.gd" type="Script" id=5]
+[ext_resource path="res://Objects/Human.tscn" type="PackedScene" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 1 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
 
+[sub_resource type="Curve3D" id=2]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 7.04131, -4.93404, -0.23189, 0, 0, 0, 0, 0, 0, -0.0251578, 4.80737, -0.195553, 0, 0, 0, 0, 0, 0, -5.60983, -4.68343, -0.195557, 0, 0, 0, 0, 0, 0, 7.07524, -5.07076, -0.238022, 0, 0, 0, 0, 0, 0, 7.04131, -4.93404, -0.23189 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0 )
+}
+
 [node name="Spatial" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.387329, 0.387331, 0 )
 
 [node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.40842, 0 )
-layers = 4
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18457, 0 )
 frames = SubResource( 1 )
+playing = true
+
+[node name="HumanSpawner" type="Path" parent="AnimatedSprite3D"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.187618 )
+curve = SubResource( 2 )
+script = ExtResource( 5 )
+Human = ExtResource( 6 )
+
+[node name="SpawnLocation" type="PathFollow" parent="AnimatedSprite3D/HumanSpawner"]

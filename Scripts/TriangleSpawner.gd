@@ -40,7 +40,7 @@ func addTriangle():
 	triangles.append(triangle)
 	add_child(triangle)
 	
-	emit_signal("amountOfTrianglesChanged", len(triangles), triangles[len(triangles) - 1].translation.z, true)
+	emit_signal("amountOfTrianglesChanged", len(triangles), triangle.translation.z, true)
 	
 
 
@@ -82,10 +82,7 @@ func getBeatOutlineDistanceFromClosestTriangle():
  
 
 func _on_ScoreManager_scoreChanged(newScore: float) -> void:
-	#print(newScore, "poep")
-	var offset: int = len(triangles) - newScore
-	
-	print(len(triangles), offset, "offset")
+	var offset: int = floor(newScore * .1) - len(triangles)
 	
 	if offset < 0:
 		for i in range(abs(offset)):
@@ -94,3 +91,4 @@ func _on_ScoreManager_scoreChanged(newScore: float) -> void:
 	elif offset > 0:
 		for i in range(offset):
 			addTriangle()
+

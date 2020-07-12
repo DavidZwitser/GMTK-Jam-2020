@@ -6,8 +6,8 @@
 [ext_resource path="res://Scripts/BeatOutline.gd" type="Script" id=4]
 [ext_resource path="res://Objects/ClickHandeler.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Fonts/PressStart2P-Regular.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://Scenes/Score.gd" type="Script" id=7]
-[ext_resource path="res://Scenes/ScoreManager.gd" type="Script" id=8]
+[ext_resource path="res://Scripts/Score.gd" type="Script" id=7]
+[ext_resource path="res://Scripts/ScoreManager.gd" type="Script" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 27
@@ -22,7 +22,6 @@ script = ExtResource( 8 )
 [node name="TriangleSpawner" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0360794, 0.0946531, -0.0161333 )
 script = ExtResource( 2 )
-amountOfTriangels = 2
 Triangle = ExtResource( 1 )
 depthScale = 3
 rotationSpeed = 0.734
@@ -30,7 +29,7 @@ rotationOffset = 0.222
 rotationAmplitude = 0.289
 
 [node name="BeatOutline" parent="TriangleSpawner" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0142746, -0.038249, -3.35763 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0142746, 0.566953, -0.0697525 )
 script = ExtResource( 4 )
 
 [node name="Camera" type="Camera" parent="."]
@@ -52,10 +51,12 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="scoreChanged" from="ScoreManager" to="TriangleSpawner/BeatOutline" method="_on_ScoreManager_scoreChanged"]
 [connection signal="scoreChanged" from="ScoreManager" to="TriangleSpawner" method="_on_ScoreManager_scoreChanged"]
-[connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="TriangleSpawner" method="_on_Wereld_amountOfTrianglesChanged"]
+[connection signal="scoreChanged" from="ScoreManager" to="Score" method="_on_ScoreManager_scoreChanged"]
 [connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="TriangleSpawner/BeatOutline" method="_on_Wereld_amountOfTrianglesChanged"]
+[connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="TriangleSpawner" method="_on_Wereld_amountOfTrianglesChanged"]
 [connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="Score" method="_on_Wereld_amountOfTrianglesChanged"]
-[connection signal="beatReleaseSignal" from="ClickHandeler" to="TriangleSpawner" method="_on_ClickHandeler_beatReleaseSignal"]
 [connection signal="beatReleaseSignal" from="ClickHandeler" to="ScoreManager" method="_on_ClickHandeler_beatReleaseSignal"]
+[connection signal="beatReleaseSignal" from="ClickHandeler" to="TriangleSpawner" method="_on_ClickHandeler_beatReleaseSignal"]
 [connection signal="beatReleaseSignal" from="ClickHandeler" to="Score" method="_on_ClickHandeler_beatReleaseSignal"]

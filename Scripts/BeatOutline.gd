@@ -18,6 +18,8 @@ func _process(delta):
 	translation.z -= currentSpeed * delta
 	
 	rotation.z = get_parent().getRotationFromZ(translation.z)
+	
+	#print(translation.z, maxZ)
 
 	if translation.z < maxZ:
 		resetScale()
@@ -28,3 +30,34 @@ func _on_Wereld_amountOfTrianglesChanged(newAmount, furthestZ, scored) -> void:
 	
 	if not scored:
 		resetScale()
+
+
+func _on_ScoreManager_scoreChanged(newScore, addedScore) -> void:
+	
+	var targetSize: Vector3 = scale * (addedScore * .9)
+	
+	animatingPuse = true
+	animatePulse(scale, targetSize, true)
+
+var animatingPuse = false	
+	
+func animatePulse(original: Vector3, target: Vector3, shouldReverse: bool):
+	scale = lerp(scale, target, .1)	
+	
+	yield(get_tree(),"idle_frame")
+	
+	var dist: float = abs((scale - target).x)
+
+	if dist > .4:
+		animatePulse(original, target, shouldReverse)
+		
+	elif dist < .4:
+		if shouldReverse == true:
+			animatePulse(target, original, false)
+		else:
+			animatingPuse = false
+			scale = target
+			return
+		
+		
+	
