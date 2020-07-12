@@ -1,28 +1,35 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Objects/Triangle.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scripts/World.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/TriangleSpawner.gd" type="Script" id=2]
 [ext_resource path="res://Objects/BeatOutline.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/BeatOutline.gd" type="Script" id=4]
 [ext_resource path="res://Objects/ClickHandeler.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Fonts/PressStart2P-Regular.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Scenes/Score.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/ScoreManager.gd" type="Script" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 27
+font_data = ExtResource( 6 )
 
 [node name="Main" type="Spatial"]
 
-[node name="Wereld" type="Spatial" parent="."]
+[node name="ScoreManager" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.08705, 7.44705 )
+script = ExtResource( 8 )
+
+[node name="TriangleSpawner" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0360794, 0.0946531, -0.0161333 )
 script = ExtResource( 2 )
-amountOfTriangels = 15
+amountOfTriangels = 2
 Triangle = ExtResource( 1 )
 depthScale = 3
 rotationSpeed = 0.734
 rotationOffset = 0.222
 rotationAmplitude = 0.289
 
-[node name="Spatial" parent="Wereld" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.809456, 0.257507, 15.8315 )
-visible = false
-
-[node name="BeatOutline" parent="Wereld" instance=ExtResource( 3 )]
+[node name="BeatOutline" parent="TriangleSpawner" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0142746, -0.038249, -3.35763 )
 script = ExtResource( 4 )
 
@@ -33,4 +40,22 @@ size = 80.2462
 far = 8192.0
 
 [node name="ClickHandeler" parent="." instance=ExtResource( 5 )]
-[connection signal="beatReleaseSignal" from="ClickHandeler" to="Wereld" method="_on_ClickHandeler_beatReleaseSignal"]
+
+[node name="Score" type="Label" parent="."]
+margin_left = 424.0
+margin_top = 56.0
+margin_right = 568.0
+margin_bottom = 104.0
+custom_fonts/font = SubResource( 1 )
+text = "Score"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="scoreChanged" from="ScoreManager" to="TriangleSpawner" method="_on_ScoreManager_scoreChanged"]
+[connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="TriangleSpawner" method="_on_Wereld_amountOfTrianglesChanged"]
+[connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="TriangleSpawner/BeatOutline" method="_on_Wereld_amountOfTrianglesChanged"]
+[connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="Score" method="_on_Wereld_amountOfTrianglesChanged"]
+[connection signal="beatReleaseSignal" from="ClickHandeler" to="TriangleSpawner" method="_on_ClickHandeler_beatReleaseSignal"]
+[connection signal="beatReleaseSignal" from="ClickHandeler" to="ScoreManager" method="_on_ClickHandeler_beatReleaseSignal"]
+[connection signal="beatReleaseSignal" from="ClickHandeler" to="Score" method="_on_ClickHandeler_beatReleaseSignal"]
