@@ -29,6 +29,8 @@ func _process(delta: float) -> void:
 		index -= 1
 		
 	#_on_ClickHandeler_beatReleaseSignal(0)
+	
+var triangleColors = ["#20396D", "#974C19", "#1E6F4A", "#576F1E", "#661E6F"]
 
 func addTriangle():
 	var triangle: Spatial = Triangle.instance()
@@ -36,13 +38,15 @@ func addTriangle():
 	var z: float = -len(triangles) * depthScale
 	triangle.translation.z = -z * z
 	
+	triangle.get_child(0).modulate = Color(triangleColors[randi() % triangleColors.size()]) * max((2 + (triangle.translation.z * .03)), .8)
+	print((2 - (triangle.translation.z * .005)))
 	
 	triangles.append(triangle)
 	add_child(triangle)
 	
-	emit_signal("amountOfTrianglesChanged", len(triangles), triangle.translation.z, true)
+	connect("scoreChanged", triangle.get_node("HumanSpawner"), "triangle_score_has_changed")
 	
-
+	emit_signal("amountOfTrianglesChanged", len(triangles), triangle.translation.z, true)
 
 func removeTriangle():
 	if (len(triangles) == 1):
@@ -67,7 +71,7 @@ func getRotationFromZ(z: float) -> float:
 	return .0
 
 func getBeatOutlineDistanceFromClosestTriangle():
-	var distance: int = 999999999999999999999
+	var distance: int = 999999999999
 	var closestIndex: int = 1
 	
 	var beatOutlineZ = get_node("BeatOutline").translation.z
@@ -79,10 +83,9 @@ func getBeatOutlineDistanceFromClosestTriangle():
 			distance = abs(triangles[i].translation.z - beatOutlineZ)
 			
 	return 	distance / max(closestIndex, 1)
- 
 
-func _on_ScoreManager_scoreChanged(newScore: float) -> void:
-	var offset: int = floor(newScore * .1) - len(triangles)
+func _on_ScoreManager_scoreChanged(newScore: float, diff) -> void:
+	var offset: int = floor(newScore * .2 + 2) - len(triangles)
 	
 	if offset < 0:
 		for i in range(abs(offset)):
@@ -91,4 +94,5 @@ func _on_ScoreManager_scoreChanged(newScore: float) -> void:
 	elif offset > 0:
 		for i in range(offset):
 			addTriangle()
-
+	
+	emit_signal("scoreChanged", newScore)

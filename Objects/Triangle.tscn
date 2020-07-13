@@ -1,10 +1,19 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=20 format=2]
 
+[ext_resource path="res://Images/HOLES/1/p4f1.png" type="Texture" id=1]
 [ext_resource path="res://Images/World/driehoek_2_v2.png" type="Texture" id=2]
 [ext_resource path="res://Images/World/driehoek_3_v2.png" type="Texture" id=3]
 [ext_resource path="res://Images/World/driehoek_1_v2.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/HumanSpawner.gd" type="Script" id=5]
 [ext_resource path="res://Objects/Human.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Images/HOLES/1/p4f2.png" type="Texture" id=7]
+[ext_resource path="res://Images/HOLES/1/p4f3.png" type="Texture" id=8]
+[ext_resource path="res://Images/HOLES/2/p3f3.png" type="Texture" id=9]
+[ext_resource path="res://Images/HOLES/2/p3f2.png" type="Texture" id=10]
+[ext_resource path="res://Images/HOLES/2/p3f1.png" type="Texture" id=11]
+[ext_resource path="res://Images/HOLES/3/p1f2.png" type="Texture" id=12]
+[ext_resource path="res://Images/HOLES/3/p1f3.png" type="Texture" id=13]
+[ext_resource path="res://Images/HOLES/3/p1f1.png" type="Texture" id=14]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -14,24 +23,67 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 14 ), ExtResource( 12 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "default",
+"speed": 2.0
+} ]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 11 ), ExtResource( 10 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "default",
+"speed": 2.0
+} ]
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 2.0
+} ]
+
 [sub_resource type="Curve3D" id=2]
+bake_interval = 0.01
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 7.04131, -4.93404, -0.23189, 0, 0, 0, 0, 0, 0, -0.0251578, 4.80737, -0.195553, 0, 0, 0, 0, 0, 0, -5.60983, -4.68343, -0.195557, 0, 0, 0, 0, 0, 0, 7.07524, -5.07076, -0.238022, 0, 0, 0, 0, 0, 0, 7.04131, -4.93404, -0.23189 ),
-"tilts": PoolRealArray( 0, 0, 0, 0, 0 )
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 6.35682, -3.79115, -0.0790758, 0, 0, 0, 0, 0, 0, -0.0903919, 5.72099, -0.000522614, 0, 0, 0, 0, 0, 0, -5.94554, -3.45413, 0.0879889, 0, 0, 0, 0, 0, 0, 6.35682, -3.79115, -0.0790758 ),
+"tilts": PoolRealArray( 0, 0, 0, 0 )
 }
 
-[node name="Spatial" type="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.387329, 0.387331, 0 )
+[node name="Triangle" type="Spatial"]
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+[node name="TriangleArt" type="AnimatedSprite3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18457, 0 )
 frames = SubResource( 1 )
 playing = true
 
-[node name="HumanSpawner" type="Path" parent="AnimatedSprite3D"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.187618 )
+[node name="HOLE1" type="AnimatedSprite3D" parent="TriangleArt"]
+transform = Transform( 0.330753, 0, 0, 0, 0.330753, 0, 0, 0, 0.330753, -6.01483, -3.87227, 0.12899 )
+frames = SubResource( 3 )
+frame = 2
+playing = true
+
+[node name="HOLE2" type="AnimatedSprite3D" parent="TriangleArt"]
+transform = Transform( 0.330753, 0, 0, 0, 0.330753, 0, 0, 0, 0.330753, 2.15026, -5.01214, 0.12899 )
+frames = SubResource( 4 )
+frame = 1
+playing = true
+
+[node name="HOLE3" type="AnimatedSprite3D" parent="TriangleArt"]
+transform = Transform( 0.124015, -0.306623, 0, 0.306623, 0.124015, 0, 0, 0, 0.330753, 2.20485, 1.45343, 0.12899 )
+frames = SubResource( 5 )
+frame = 2
+playing = true
+
+[node name="HumanSpawner" type="Path" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.156313 )
 curve = SubResource( 2 )
 script = ExtResource( 5 )
 Human = ExtResource( 6 )
 
-[node name="SpawnLocation" type="PathFollow" parent="AnimatedSprite3D/HumanSpawner"]
+[node name="SpawnLocation" type="PathFollow" parent="HumanSpawner"]
+transform = Transform( -0.665442, 0.746447, 0.0017554, -0.74628, -0.665239, -0.0228525, -0.0158904, -0.016517, 0.999738, 6.35682, -3.79115, -0.0790758 )

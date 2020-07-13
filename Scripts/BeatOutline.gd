@@ -34,7 +34,7 @@ func _on_Wereld_amountOfTrianglesChanged(newAmount, furthestZ, scored) -> void:
 
 func _on_ScoreManager_scoreChanged(newScore, addedScore) -> void:
 	
-	var targetSize: Vector3 = scale * (addedScore * .9)
+	var targetSize: Vector3 = scale * (addedScore * .2)
 	
 	animatingPuse = true
 	animatePulse(scale, targetSize, true)
@@ -42,16 +42,16 @@ func _on_ScoreManager_scoreChanged(newScore, addedScore) -> void:
 var animatingPuse = false	
 	
 func animatePulse(original: Vector3, target: Vector3, shouldReverse: bool):
-	scale = lerp(scale, target, .1)	
+	scale = lerp(scale, target, .15)	
 	
 	yield(get_tree(),"idle_frame")
 	
 	var dist: float = abs((scale - target).x)
 
-	if dist > .4:
+	if dist > .1:
 		animatePulse(original, target, shouldReverse)
 		
-	elif dist < .4:
+	elif dist < .1:
 		if shouldReverse == true:
 			animatePulse(target, original, false)
 		else:

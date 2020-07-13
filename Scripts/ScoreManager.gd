@@ -8,7 +8,7 @@ func _on_ClickHandeler_beatReleaseSignal(value) -> void:
 	
 	var distance: int = get_parent().get_node("TriangleSpawner").getBeatOutlineDistanceFromClosestTriangle()
 	
-	var score: int = 3 - distance
+	var score: int = 5 - distance
 	gameScore += score
 
 	if score:

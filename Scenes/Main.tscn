@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Objects/Triangle.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/TriangleSpawner.gd" type="Script" id=2]
@@ -8,10 +8,37 @@
 [ext_resource path="res://Fonts/PressStart2P-Regular.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Scripts/Score.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/ScoreManager.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/Camera.gd" type="Script" id=9]
+[ext_resource path="res://Images/population.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/Start.gd" type="Script" id=11]
+[ext_resource path="res://Images/click.png" type="Texture" id=12]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="PanoramaSky" id=1]
+
+[sub_resource type="Environment" id=2]
+background_mode = 1
+background_sky = SubResource( 1 )
+background_color = Color( 0.137255, 0, 0.231373, 1 )
+ssao_radius = 30.03
+dof_blur_far_enabled = true
+dof_blur_far_distance = 64.53
+dof_blur_far_transition = 0.25
+dof_blur_far_amount = 0.05
+glow_enabled = true
+glow_intensity = 4.26
+glow_strength = 1.35
+
+[sub_resource type="DynamicFont" id=3]
 size = 27
 font_data = ExtResource( 6 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="Main" type="Spatial"]
 
@@ -22,6 +49,7 @@ script = ExtResource( 8 )
 [node name="TriangleSpawner" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0360794, 0.0946531, -0.0161333 )
 script = ExtResource( 2 )
+amountOfTriangels = 2
 Triangle = ExtResource( 1 )
 depthScale = 3
 rotationSpeed = 0.734
@@ -33,29 +61,61 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0142746, 0.566953, -0.069752
 script = ExtResource( 4 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.08705, 7.44705 )
-fov = 109.688
+transform = Transform( 0.804761, -0.561753, 0.191818, 0.460997, 0.79503, 0.39422, -0.373955, -0.228825, 0.898775, 4.656, 7.00648, 11.2483 )
+environment = SubResource( 2 )
+fov = 43.1428
 size = 80.2462
 far = 8192.0
+script = ExtResource( 9 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="Camera"]
+transform = Transform( 0.824668, -0.461706, 0.326726, 0.421767, 0.886854, 0.188686, -0.376876, -0.0178014, 0.926093, 4.13992, 4.39774, 6.97234 )
+light_energy = 11.09
+light_indirect_energy = 3.36
+light_specular = 0.52
 
 [node name="ClickHandeler" parent="." instance=ExtResource( 5 )]
 
+[node name="click" type="Sprite" parent="."]
+position = Vector2( 247.737, 114.75 )
+scale = Vector2( 0.325, 0.325 )
+texture = ExtResource( 12 )
+
 [node name="Score" type="Label" parent="."]
-margin_left = 424.0
-margin_top = 56.0
-margin_right = 568.0
-margin_bottom = 104.0
-custom_fonts/font = SubResource( 1 )
-text = "Score"
+margin_left = 284.755
+margin_top = 182.902
+margin_right = 419.755
+margin_bottom = 209.902
+rect_rotation = 10.7482
+rect_pivot_offset = Vector2( 570.626, -46.4025 )
+custom_fonts/font = SubResource( 3 )
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="scoreChanged" from="ScoreManager" to="TriangleSpawner/BeatOutline" method="_on_ScoreManager_scoreChanged"]
+
+[node name="CP1" type="Position3D" parent="."]
+transform = Transform( 0.882311, -0.458159, -0.107789, 0.460997, 0.79503, 0.39422, -0.0949195, -0.397515, 0.912673, -9.17638, -6.39454, 9.72989 )
+
+[node name="CP2" type="Position3D" parent="."]
+transform = Transform( 0.804761, -0.561753, 0.191818, 0.460997, 0.79503, 0.39422, -0.373955, -0.228825, 0.898775, 3.87904, 12.7844, 4.06545 )
+
+[node name="CP3" type="Position3D" parent="."]
+transform = Transform( 0.804761, -0.561753, 0.191818, 0.460997, 0.79503, 0.39422, -0.373955, -0.228825, 0.898775, -1.96513, -2.80171, 0.791498 )
+
+[node name="CP4" type="Position3D" parent="."]
+transform = Transform( 0.804761, -0.561753, 0.191818, 0.460997, 0.79503, 0.39422, -0.373955, -0.228825, 0.898775, -24.2438, 2.36574, 8.01925 )
+
+[node name="ClickToStart" type="AnimatedSprite3D" parent="."]
+pause_mode = 2
+transform = Transform( 1.37739, 0, 0, 0, 1.37739, 0, 0, 0, 1.37739, 0.330275, -0.10058, 0.231724 )
+frames = SubResource( 4 )
+script = ExtResource( 11 )
 [connection signal="scoreChanged" from="ScoreManager" to="TriangleSpawner" method="_on_ScoreManager_scoreChanged"]
+[connection signal="scoreChanged" from="ScoreManager" to="TriangleSpawner/BeatOutline" method="_on_ScoreManager_scoreChanged"]
 [connection signal="scoreChanged" from="ScoreManager" to="Score" method="_on_ScoreManager_scoreChanged"]
-[connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="TriangleSpawner/BeatOutline" method="_on_Wereld_amountOfTrianglesChanged"]
 [connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="TriangleSpawner" method="_on_Wereld_amountOfTrianglesChanged"]
+[connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="TriangleSpawner/BeatOutline" method="_on_Wereld_amountOfTrianglesChanged"]
 [connection signal="amountOfTrianglesChanged" from="TriangleSpawner" to="Score" method="_on_Wereld_amountOfTrianglesChanged"]
 [connection signal="beatReleaseSignal" from="ClickHandeler" to="ScoreManager" method="_on_ClickHandeler_beatReleaseSignal"]
 [connection signal="beatReleaseSignal" from="ClickHandeler" to="TriangleSpawner" method="_on_ClickHandeler_beatReleaseSignal"]

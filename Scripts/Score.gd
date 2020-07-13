@@ -23,6 +23,6 @@ func _on_ClickHandeler_beatReleaseSignal(value) -> void:
 	pass # Replace with function body.
 
 
-func _on_ScoreManager_scoreChanged(newScore) -> void:
+func _on_ScoreManager_scoreChanged(newScore, diff) -> void:
 	text = str(newScore)
 	pass # Replace with function body.
